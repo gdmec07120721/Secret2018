@@ -39,7 +39,6 @@ window.onload = function() {
                 u.push('<div id="', id, '" data-level="', e, '" data-size="', f, '" data-row="', c, '" data-col="', h, '" class="l', e, '" style="background:', p, ";top:", o + f * c, "px;left:", s + f * h, 'px;"></div>')
             }
         }
-
         n.append(u.join(""));
         addEvent(id);
     },
@@ -60,34 +59,35 @@ window.onload = function() {
             a.push("div.l", f, " {position:absolute;width:", l, "px;height:", l, "px;border-radius:", c, "px;}")
         }
 
-        
-
         insertCssText(a.join(""));
 
-        var h = !1;
+        var h = false;
 
         function touchs(e){
             //阻止浏览器默认滚动事件
             e.preventDefault();
 
             if(e.type=="touchmove" || e.type=="touchstart"){
-                var t = $(this),
-                n = t.attr("data-level") | 0,
-                r = t.attr("data-row") | 0,
-                s = t.attr("data-col") | 0,
-                o = parseInt(t.css("left")),
-                u = parseInt(t.css("top"));
-                if (n >= 6) return ! 1;
-                
-                t.animate({
-                    opacity: 0
-                }, 150, '', 
-                function(){
-                    t.remove();
-                    i(n + 1, r, s, o, u);
-                });
+                if (!h) {
+                    h = true;
+                    var t = $(this),
+                    n = t.attr("data-level") | 0,
+                    r = t.attr("data-row") | 0,
+                    s = t.attr("data-col") | 0,
+                    o = parseInt(t.css("left")),
+                    u = parseInt(t.css("top"));
+                    if (n >= 6) return false;
+
+                    t.animate({
+                        opacity: 0
+                    }, 150, '', 
+                    function(){
+                        t.remove();
+                        i(n + 1, r, s, o, u);
+                    });
+                }
             } else if (e.type=="touchend") {
-                h = !1;
+                h = false;
             }
         }
         function addEvent(id){
@@ -95,7 +95,7 @@ window.onload = function() {
 
             for(var i = 0; i < _n.length; i++){
                 (function(i){
-                   _n[i].addEventListener('touchstart',touchs,false);
+                    _n[i].addEventListener('touchstart',touchs,false);
                     _n[i].addEventListener('touchmove',touchs,false);
                     _n[i].addEventListener('touchend',touchs,false); 
                 })(i);
