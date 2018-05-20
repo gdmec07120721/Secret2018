@@ -86,7 +86,7 @@ function loading() {
             $('.number').html(parseInt(numbers) + "%");
             console.log(numbers);
             if (Math.round(numbers) == 100) {
-                //$('.number').hide();
+                $('.loading').hide();
                 date_end = getNowFormatDate();
                 var loading_time = date_end - date_start;
                 //预加载图片

@@ -9,6 +9,12 @@ body{
 	padding:0;
 }
 
+.loading{
+	text-align: center;
+	padding-top: 50%;
+	color: #eb7350;
+}
+
 .flipbook-viewport{
 	overflow:hidden;
 	width:100%;
