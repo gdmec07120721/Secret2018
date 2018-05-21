@@ -1,7 +1,12 @@
-window.onload = function() {
+window.CD = function() {
     var e = 128,
         t = [],
         n = $('#__CONTAINER_FOR_FUN');
+    var tar = null;
+    var divx1,
+        divy1, 
+        divx2, 
+        divy2;
 
     if (!n.length) return ! 1;
 
@@ -30,17 +35,19 @@ window.onload = function() {
             a = Math.pow(2, e),
             f = 512 / a,
             l = e === 0 ? 1 : 2;
+        var num = 0;
         var id = 'id_' + new Date().getTime();
 
         for (var c = 0; c < l; c++) {
             for (var h = 0; h < l; h++) {
                 var p = r(f / 4, o / f + c, s / f + h);
-
+                id = id + num;
+                num ++;
                 u.push('<div id="', id, '" data-level="', e, '" data-size="', f, '" data-row="', c, '" data-col="', h, '" class="l', e, '" style="background:', p, ";top:", o + f * c, "px;left:", s + f * h, 'px;"></div>')
             }
         }
         n.append(u.join(""));
-        addEvent(id);
+/*        addEvent(id);*/
     },
     s = document.createElement("canvas");
 
@@ -90,7 +97,7 @@ window.onload = function() {
                 h = false;
             }
         }
-        function addEvent(id){
+/*        function addEvent(id){
             _n = document.querySelectorAll('#' + id);
 
             for(var i = 0; i < _n.length; i++){
@@ -100,7 +107,100 @@ window.onload = function() {
                     _n[i].addEventListener('touchend',touchs,false); 
                 })(i);
             }
+        }*/
+
+        $(document).bind("touchmove",function(e){
+            var target = e.originalEvent.targetTouches[0];
+            var _x= target.pageX;
+            var _y= target.pageY;
+
+            move(_x, _y)
+        })
+
+        $(document).bind("touchend",function(e){
+            h = false; 
+        })
+
+        function move(_x, _y){
+
+            if (true) {
+
+            } else {
+
+            }
+
+            for (var index = 0; index < $('#__CONTAINER_FOR_FUN div').length; index++) {
+                console.log($('#__CONTAINER_FOR_FUN div')[index])
+                var div = $($('#__CONTAINER_FOR_FUN div')[index]);
+                divx1 = div.offset().left;  
+                divy1 = div.offset().left;  
+                divx2 = divx1 + div.width();  
+                divy2 = divy1 + div.height();
+
+                if ( _x > divx1 && _x < divx2 && _y > divy1 && _y < divy2) { 
+
+                    var t = div,
+                        n = t.attr("data-level") | 0,
+                        r = t.attr("data-row") | 0,
+                        s = t.attr("data-col") | 0,
+                        o = parseInt(t.css("left")),
+                        u = parseInt(t.css("top"));
+                        
+                    if (n >= 6) return false;
+
+                    t.remove();
+                    i(n + 1, r, s, o, u);
+
+                    h = true; 
+                    t.animate({
+                        opacity: 0
+                    }, 150, '', 
+                    function(){
+                        
+                        h = false; 
+                    });
+                }  
+            }
+            
+            
         }
+
+        n.on('touchmove', 'div', function(e) {
+            console.log(e)
+            //阻止浏览器默认滚动事件
+            e.preventDefault();
+
+            if (tar != $(this)) {
+                var t = $(this),
+                    n = t.attr("data-level") | 0,
+                    r = t.attr("data-row") | 0,
+                    s = t.attr("data-col") | 0,
+                    o = parseInt(t.css("left")),
+                    u = parseInt(t.css("top"));
+
+                tar = t;
+                    
+                if (n >= 6) return false;
+
+                t.animate({
+                    opacity: 0
+                }, 150, '', 
+                function(){
+                    t.remove();
+                    i(n + 1, r, s, o, u);
+                });
+            }  
+
+        });
+        
+        n.on('touchend', 'div', function(e) {
+            //阻止浏览器默认滚动事件
+            e.preventDefault();
+             
+            h = false;
+        });
+
+
         u.onload = function() {
             o.drawImage(u, 0, 0);
             var n = o.getImageData(0, 0, e, e);
