@@ -2,11 +2,17 @@ window.CD = function() {
     var e = 128,
         t = [],
         n = $('#__CONTAINER_FOR_FUN');
-    var tar = null;
+
+    var div = null;
     var divx1,
         divy1, 
         divx2, 
         divy2;
+
+    var wX1 = 0,
+     	wY1 = parseFloat($('body').width() * 0.3), 
+     	wX2 = $('body').width(), 
+     	wY2 = wX2 + wY1;
 
     if (!n.length) return ! 1;
 
@@ -97,48 +103,26 @@ window.CD = function() {
                 h = false;
             }
         }
-/*        function addEvent(id){
-            _n = document.querySelectorAll('#' + id);
-
-            for(var i = 0; i < _n.length; i++){
-                (function(i){
-                    _n[i].addEventListener('touchstart',touchs,false);
-                    _n[i].addEventListener('touchmove',touchs,false);
-                    _n[i].addEventListener('touchend',touchs,false); 
-                })(i);
-            }
-        }*/
 
         $(document).bind("touchmove",function(e){
             var target = e.originalEvent.targetTouches[0];
             var _x= target.pageX;
             var _y= target.pageY;
 
-            move(_x, _y)
+            if (_x > wX1 && _x < wX2 && _y > wY1 && _y < wY2) {
+            	move(_x, _y)
+            }
         })
 
         $(document).bind("touchend",function(e){
-            h = false; 
+            div = null;
         })
 
         function move(_x, _y){
-
-            if (true) {
-
-            } else {
-
-            }
-
-            for (var index = 0; index < $('#__CONTAINER_FOR_FUN div').length; index++) {
-                console.log($('#__CONTAINER_FOR_FUN div')[index])
-                var div = $($('#__CONTAINER_FOR_FUN div')[index]);
-                divx1 = div.offset().left;  
-                divy1 = div.offset().left;  
-                divx2 = divx1 + div.width();  
-                divy2 = divy1 + div.height();
-
-                if ( _x > divx1 && _x < divx2 && _y > divy1 && _y < divy2) { 
-
+        	if (div) {
+        		console.log('sadsa')
+                if ( _x < divx1 || _x > divx2 || _y < divy1 || _y > divy2) { 
+                	console.log('dddddddddddddddddddddddddd')
                     var t = div,
                         n = t.attr("data-level") | 0,
                         r = t.attr("data-row") | 0,
@@ -148,58 +132,36 @@ window.CD = function() {
                         
                     if (n >= 6) return false;
 
-                    t.remove();
-                    i(n + 1, r, s, o, u);
-
-                    h = true; 
                     t.animate({
                         opacity: 0
                     }, 150, '', 
                     function(){
-                        
-                        h = false; 
+                    	t.remove();
+                    	i(n + 1, r, s, o, u);
+                        div = null; 
                     });
-                }  
-            }
-            
-            
+                }
+        	} else {
+	            for (var index = 0; index < $('#__CONTAINER_FOR_FUN div').length; index++) {
+	                console.log($('#__CONTAINER_FOR_FUN div')[index])
+	                var tar = $($('#__CONTAINER_FOR_FUN div')[index]),
+	                	x1 = tar.offset().left,  
+	                	y1 = tar.offset().top,  
+	                	x2 = x1 + tar.width(),  
+	                	y2 = y1 + tar.height();
+
+	                if ( _x > x1 && _x < x2 && _y > y1 && _y < y2) { 
+	                	console.log('dddddddddddddddddddddddddd')
+                		div =  tar;
+                	    divx1 = x1;
+				        divy1 = y1; 
+				        divx2 = x2; 
+				        divy2 = y2;
+	                	break;
+	                }  
+	            }
+        	}
         }
-
-        n.on('touchmove', 'div', function(e) {
-            console.log(e)
-            //阻止浏览器默认滚动事件
-            e.preventDefault();
-
-            if (tar != $(this)) {
-                var t = $(this),
-                    n = t.attr("data-level") | 0,
-                    r = t.attr("data-row") | 0,
-                    s = t.attr("data-col") | 0,
-                    o = parseInt(t.css("left")),
-                    u = parseInt(t.css("top"));
-
-                tar = t;
-                    
-                if (n >= 6) return false;
-
-                t.animate({
-                    opacity: 0
-                }, 150, '', 
-                function(){
-                    t.remove();
-                    i(n + 1, r, s, o, u);
-                });
-            }  
-
-        });
-        
-        n.on('touchend', 'div', function(e) {
-            //阻止浏览器默认滚动事件
-            e.preventDefault();
-             
-            h = false;
-        });
-
 
         u.onload = function() {
             o.drawImage(u, 0, 0);
