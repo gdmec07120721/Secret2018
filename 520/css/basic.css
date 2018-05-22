@@ -425,3 +425,47 @@ body{
 @media screen and (min-width:375px) and (max-width:420px) {
     .animation.small{transform: scale(.8) translate(-12%, 50%);}
 }
+
+
+
+/*打字动画*/
+.title-h{
+     font-size: 1.8rem;
+     padding-top: 6%;
+     margin-bottom: 5%;
+     font-weight: normal;
+     letter-spacing: .3rem;
+    /*padding-left: 29.2%;*/
+    -webkit-animation: type 2s steps(50, end) forwards;
+    animation: type 2s steps(50, end) forwards;
+
+}
+.typing{
+    text-align: center;
+    color: black;
+    width:100%;
+    white-space:nowrap;
+    overflow:hidden;
+    word-wrap:break-word 
+}
+@-webkit-keyframes type{
+    from { width: 0;}
+}
+
+@keyframes type{
+    from { width: 0;}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
